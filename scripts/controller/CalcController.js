@@ -22,7 +22,10 @@ class CalcController {
 
             this.setDisplayDateTime();
 
-        }, 1000)
+        }, 1000);
+
+        this.setLastNumberToDisplay();
+
     }
 
     //forEach que percorre os eventos de click
@@ -40,11 +43,17 @@ class CalcController {
 
         this._operation = [];
 
+        this.setLastNumberToDisplay();
+
+
     }
 
     clearEntry() {
 
         this._operation.pop();
+
+        this.setLastNumberToDisplay();
+
 
     }
 
@@ -80,16 +89,32 @@ class CalcController {
 
     calc() {
 
-         let last = this._operation.pop();
+        let last = '';
 
-         let result = eval(this._operation.join(""));
+        if (this._operation.length > 3) {
+            let last = this._operation.pop();
+        }
 
-         this._operation = [result, last];
+        let result = eval(this._operation.join(""));
 
-         this.setLastNumberToDisplay();
+        if (last == '%') {
+
+            result /= 100;
+
+            this._operation[result];
+
+        } else {
+
+            this._operation = [result];
+
+        } if (last) this._operation.push(last);
+
+        this.setLastNumberToDisplay();
     }
 
-    setLastNumberToDisplay(){
+
+
+    setLastNumberToDisplay() {
 
         let lastNumber;
 
@@ -101,8 +126,10 @@ class CalcController {
             }
         }
 
+        if (!lastNumber) lastNumber = 0;
+
         this.displayCalc = lastNumber;
-    
+
     }
 
 
@@ -123,11 +150,11 @@ class CalcController {
                 this.pushOperation(value);
 
                 this.setLastNumberToDisplay();
-            } 
+            }
 
 
 
-        }   else {
+        } else {
 
             if (this.isOperation(value)) {
 
@@ -135,14 +162,14 @@ class CalcController {
 
             } else {
 
-            let newValue = this.getLastOperation().toString() + value.toString();
-            this.setLastOperation(parseInt(newValue));
+                let newValue = this.getLastOperation().toString() + value.toString();
+                this.setLastOperation(parseInt(newValue));
 
-            //atualizar display
-            this.setLastNumberToDisplay();
+                //atualizar display
+                this.setLastNumberToDisplay();
 
             }
-                  
+
         }
 
     }
@@ -182,7 +209,7 @@ class CalcController {
                 break;
 
             case 'igual':
-
+                this.calc();
                 break;
 
             case 'ponto':
@@ -203,7 +230,7 @@ class CalcController {
                 break;
             default:
                 this.setError();
-            
+
         }
 
     }
