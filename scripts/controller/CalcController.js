@@ -66,13 +66,13 @@ class CalcController {
 
     addOperation(value) {
 
-        //cai aqui se for string
+        console.log('A', value, isNaN(this.getLastOperation()));
+
         if (isNaN(this.getLastOperation())) {
 
-            //trocar operador
             if (this.isOperation(value)) {
 
-                this._setLastOperation(value);
+                this.setLastOperation(value);
 
             } else if (isNaN(value)) {
 
@@ -81,14 +81,21 @@ class CalcController {
             } else {
 
                 this._operation.push(value);
-            }
+            } 
 
+        }   else {
 
-            //cai aqui se for numerico
-        } else {
+            if (this.isOperation(value)) {
+
+                this._operation.push(value);
+
+            } else {
+
             let newValue = this.getLastOperation().toString() + value.toString();
-            this.setLastOperation(parseInt (newValue));
+            this.setLastOperation(parseInt(newValue));
 
+            }
+                  
         }
 
         console.log(this._operation);
