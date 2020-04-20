@@ -458,6 +458,12 @@ class CalcController {
     }
 
     set displayCalc(value) {
+
+        if (value.length > 10) {
+            this.setError();
+            return false;
+        }
+
         this._displayCalcEL.innerHTML = value;
     }
 
